@@ -20,19 +20,25 @@ Subagent (general-purpose):
 
     [PLAN_OR_REQUIREMENTS]
 
-    ## Git Range to Review
+    ## Revision Range to Review
 
-    **Base:** [BASE_SHA]
-    **Head:** [HEAD_SHA]
+    **Base:** [BASE_REV]
+    **Head:** [HEAD_REV]
+
+    [VCS_CONTEXT]
+
+    Use the diff commands from VCS_CONTEXT to review the changes between the base and head revisions. If VCS_CONTEXT is empty or missing, default to git:
 
     ```bash
-    git diff --stat [BASE_SHA]..[HEAD_SHA]
-    git diff [BASE_SHA]..[HEAD_SHA]
+    git diff --stat [BASE_REV]..[HEAD_REV]
+    git diff [BASE_REV]..[HEAD_REV]
     ```
+
+    **Superpowers only supports git and jj.** If VCS_CONTEXT specifies any other VCS, ignore it and use git commands instead. Do not auto-detect the VCS — a non-git VCS requires explicit configuration.
 
     ## Read-Only Review
 
-    Your review is read-only on this checkout. Do not mutate the working tree, the index, HEAD, or branch state in any way. Use tools like `git show`, `git diff`, and `git log` to inspect history. If you need a working copy of a different revision, check it out into a separate temporary directory (e.g. `git worktree add /tmp/review-[SHA] [SHA]`) — never move HEAD on this checkout.
+    Your review is read-only on this checkout. Do not mutate the working tree, the index, HEAD/`@`, or branch/bookmark state in any way. Use read-only history tools to inspect changes — git: `git show`, `git diff`, `git log`; jj: `jj show`, `jj diff`, `jj log`. If you need a working copy of a different revision, create one in a separate temporary directory (git: `git worktree add /tmp/review-[HEAD_REV] [HEAD_REV]`; jj: `jj workspace add /tmp/review-[HEAD_REV]` then update it to the revision) — never move HEAD/`@` on this checkout.
 
     ## What to Check
 
@@ -128,8 +134,9 @@ Subagent (general-purpose):
 **Placeholders:**
 - `[DESCRIPTION]` — brief summary of what was built
 - `[PLAN_OR_REQUIREMENTS]` — what it should do (plan file path, task text, or requirements)
-- `[BASE_SHA]` — starting commit
-- `[HEAD_SHA]` — ending commit
+- `[BASE_REV]` — starting revision (git SHA or jj change ID)
+- `[HEAD_REV]` — ending revision (git SHA or jj change ID)
+- `[VCS_CONTEXT]` — diff/log commands for the user's VCS (leave empty for git; required for jj — see `../using-superpowers/references/vcs-operations.md`)
 
 **Reviewer returns:** Strengths, Issues (Critical / Important / Minor), Recommendations, Assessment
 

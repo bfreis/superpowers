@@ -15,7 +15,9 @@
 # Usage: sdd-workspace
 set -euo pipefail
 
-root=$(git rev-parse --show-toplevel)
+# Resolve repo root for either VCS. jj root succeeds in any jj repo
+# (colocated or standalone); fall back to git otherwise.
+root=$(jj root 2>/dev/null || git rev-parse --show-toplevel)
 dir="$root/.superpowers/sdd"
 mkdir -p "$dir"
 printf '*\n' > "$dir/.gitignore"

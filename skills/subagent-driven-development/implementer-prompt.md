@@ -19,6 +19,16 @@ Subagent (general-purpose):
 
     [Scene-setting: where this fits, dependencies, architectural context]
 
+    ## Version Control
+
+    [VCS_CONTEXT]
+
+    Subagents do not inherit the session's VCS setting, so it is stated above.
+    If [VCS_CONTEXT] is empty, use git. **Superpowers only supports git and jj** —
+    if it names any other VCS, ignore it and use git. For jj, commit with
+    `jj describe -m "msg" && jj new` (no staging area). For git, use
+    `git add <files> && git commit -m "msg"`.
+
     ## Before You Begin
 
     If you have questions about:
@@ -125,7 +135,7 @@ Subagent (general-purpose):
     Then report back with ONLY (under 15 lines — the detail lives in the
     report file):
     - **Status:** DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT
-    - Commits created (short SHA + subject)
+    - Commits created (short revision id + subject)
     - One-line test summary (e.g. "14/14 passing, output pristine")
     - Your concerns, if any
     - The report file path

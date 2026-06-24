@@ -23,11 +23,9 @@ Dispatch a code reviewer subagent to catch issues before they cascade. The revie
 
 ## How to Request
 
-**1. Get git SHAs:**
-```bash
-BASE_SHA=$(git rev-parse HEAD~1)  # or origin/main
-HEAD_SHA=$(git rev-parse HEAD)
-```
+**1. Get revision identifiers:**
+
+Get the base and head revisions. For git: `BASE_REV=$(git rev-parse HEAD~1)` (or `origin/main`) and `HEAD_REV=$(git rev-parse HEAD)`. For jj, see the "Current revision identifier" / "Determine base" operations in `../using-superpowers/references/vcs-operations.md`.
 
 **2. Dispatch code reviewer subagent:**
 
@@ -36,8 +34,9 @@ Dispatch a `general-purpose` subagent, filling the template at [code-reviewer.md
 **Placeholders:**
 - `{DESCRIPTION}` - Brief summary of what you built
 - `{PLAN_OR_REQUIREMENTS}` - What it should do
-- `{BASE_SHA}` - Starting commit
-- `{HEAD_SHA}` - Ending commit
+- `{BASE_REV}` - Starting revision
+- `{HEAD_REV}` - Ending revision
+- `{VCS_CONTEXT}` - Diff/log commands for the user's VCS (leave empty for git; required for jj — the reviewer defaults to git when empty; see `../using-superpowers/references/vcs-operations.md`)
 
 **3. Act on feedback:**
 - Fix Critical issues immediately
@@ -52,14 +51,14 @@ Dispatch a `general-purpose` subagent, filling the template at [code-reviewer.md
 
 You: Let me request code review before proceeding.
 
-BASE_SHA=$(git log --oneline | grep "Task 1" | head -1 | awk '{print $1}')
-HEAD_SHA=$(git rev-parse HEAD)
+[Get base revision (e.g. the commit/change for Task 1) and head revision —
+ see ../using-superpowers/references/vcs-operations.md for the commands matching the user's VCS]
 
 [Dispatch code reviewer subagent]
   DESCRIPTION: Added verifyIndex() and repairIndex() with 4 issue types
   PLAN_OR_REQUIREMENTS: Task 2 from docs/superpowers/plans/deployment-plan.md
-  BASE_SHA: a7981ec
-  HEAD_SHA: 3df7661
+  BASE_REV: a7981ec
+  HEAD_REV: 3df7661
 
 [Subagent returns]:
   Strengths: Clean architecture, real tests

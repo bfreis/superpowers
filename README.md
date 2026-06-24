@@ -33,6 +33,8 @@ If you're using Superpowers in enterprise and could benefit from commercial supp
 
 Installation differs by harness. If you use more than one, install Superpowers separately for each one.
 
+**Version control:** Superpowers supports both **git** and **jj** (Jujutsu). It auto-detects which your repo uses (a `.jj` directory means jj), or you can set a preference in `~/.config/superpowers/config.json` (`{"vcs": "jj"}`).
+
 ### Claude Code
 
 Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
@@ -203,7 +205,7 @@ The Pi package loads the Superpowers skills and a small extension that injects t
 
 1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
 
-2. **using-git-worktrees** - Activates after design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
+2. **using-workspaces** - Activates after design approval. Creates an isolated workspace (git worktree or jj workspace), runs project setup, verifies clean test baseline.
 
 3. **writing-plans** - Activates with approved design. Breaks work into bite-sized tasks (2-5 minutes each). Every task has exact file paths, complete code, verification steps.
 
@@ -213,7 +215,7 @@ The Pi package loads the Superpowers skills and a small extension that injects t
 
 6. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
 
-7. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up worktree.
+7. **finishing-development-work** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up the workspace.
 
 **The agent checks for relevant skills before any task.** Mandatory workflows, not suggestions.
 
@@ -235,8 +237,8 @@ The Pi package loads the Superpowers skills and a small extension that injects t
 - **dispatching-parallel-agents** - Concurrent subagent workflows
 - **requesting-code-review** - Pre-review checklist
 - **receiving-code-review** - Responding to feedback
-- **using-git-worktrees** - Parallel development branches
-- **finishing-a-development-branch** - Merge/PR decision workflow
+- **using-workspaces** - Isolated development workspaces (git worktrees or jj workspaces)
+- **finishing-development-work** - Merge/PR decision workflow
 - **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
 
 **Meta**

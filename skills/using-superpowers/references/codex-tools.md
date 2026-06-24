@@ -44,8 +44,11 @@ cell by `cell_id`; it is not the spawned-agent result tool.
 
 ## Environment Detection
 
-Skills that create worktrees or finish branches should detect their
-environment with read-only git commands before proceeding:
+Skills that create workspaces or finish development work should detect their
+environment before proceeding. The approach depends on the user's VCS
+(injected as `VCS: git` or `VCS: jj` in session context).
+
+**For git users** (read-only git commands):
 
 ```bash
 GIT_DIR=$(cd "$(git rev-parse --git-dir)" 2>/dev/null && pwd -P)
@@ -56,8 +59,17 @@ BRANCH=$(git branch --show-current)
 - `GIT_DIR != GIT_COMMON` → already in a linked worktree (skip creation)
 - `BRANCH` empty → detached HEAD (cannot branch/push/PR from sandbox)
 
-See `using-git-worktrees` Step 0 and `finishing-a-development-branch`
-Step 1 for how each skill uses these signals.
+**For jj users:**
+
+```bash
+jj workspace list   # original workspace is named "default"
+```
+
+- More than `default` listed → you may be in a linked workspace (skip creation)
+- jj has no detached-HEAD state; check for a bookmark with `jj bookmark list -r @`
+
+See `using-workspaces` Step 0 and `finishing-development-work`
+Step 2 for how each skill uses these signals.
 
 ## Codex App Finishing
 
